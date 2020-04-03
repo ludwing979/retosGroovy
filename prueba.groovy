@@ -50,7 +50,7 @@ def margins = [
         main.products.each{
             if(it[1] == group){
                 main.category.eachWithIndex{linea , index ->
-                    if(linea[1] < it[2] && linea[2] > it[2]){
+                    if(linea[1] < it[2] && linea[2] > it[2] || linea[1] < it[2] && linea[2] == null){
                         suma = suma + (it[2] * (1 + main.getPorcentaje(main.margins,linea[0])))
                         contador = contador + 1
                     }
