@@ -47,21 +47,25 @@ def margins = [
         Main main = new Main()
         def suma = 0
         int contador = 0
-        main.products.each{
+        def lista = main.products.findAll{ element -> element[1] == group }
+        lista.each{
             if(it[1] == group){
-                main.category.eachWithIndex{linea , index ->
-                    if(linea[1] < it[2] && linea[2] > it[2] || linea[1] < it[2] && linea[2] == null){
-                        suma = suma + (it[2] * (1 + main.getPorcentaje(main.margins,linea[0])))
+                main.category.eachWithIndex{linea, index ->
+                    if(isValid(linea, it)){
+                        suma = suma + (it[2] * (1 + getPorcentaje(main.margins,linea[0])))
                         contador = contador + 1
                     }
                 }
             }
         }
-        def promedio = Math.round((suma / contador) * 10)/10
-        return(promedio)
+        return(Math.round((suma / contador) * 10)/10)
+    }
+    
+    static boolean isValid(linea, it) {
+        return linea[1] < it[2] && linea[2] > it[2] || linea[1] < it[2] && linea[2] == null
     }
 
-    def getPorcentaje(margins,valor) {
+    def static getPorcentaje(margins,valor) {
         
         def porcentaje = margins.get(valor)
         
