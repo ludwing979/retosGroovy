@@ -44,7 +44,7 @@ def margins = [
     
     public static getGroupAverage(String group)
     {    
-        BigDecimal suma = 0
+        def suma = 0
         int contador = 0
         products.each{
             if(it[1] == group){
@@ -56,7 +56,7 @@ def margins = [
                 }
             }
         }
-        BigDecimal promedio = (suma / contador).setScale(1, RoundingMode.UP)
+        def promedio = Math.round((suma / contador) * 10)/10
         return(promedio)
     }
 
