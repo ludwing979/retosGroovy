@@ -44,13 +44,14 @@ def margins = [
     
     public static getGroupAverage(String group)
     {    
+        Main main = new Main()
         def suma = 0
         int contador = 0
-        products.each{
+        main.products.each{
             if(it[1] == group){
-                category.eachWithIndex{linea , index ->
+                main.category.eachWithIndex{linea , index ->
                     if(linea[1] < it[2] && linea[2] > it[2]){
-                        suma = suma + (it[2] * (1 + getPorcentaje(margins,linea[0])))
+                        suma = suma + (it[2] * (1 + main.getPorcentaje(main.margins,linea[0])))
                         contador = contador + 1
                     }
                 }
@@ -61,11 +62,12 @@ def margins = [
     }
 
     def getPorcentaje(margins,valor) {
-        try {
-            def porcentaje = margins.get(valor).toFloat()
-            return porcentaje
-        } catch (Exception e) {
-            def porcentaje = margins.get(valor)
+        
+        def porcentaje = margins.get(valor)
+        
+        if (!porcentaje.endsWith('%')) {
+            return porcentaje.toDouble()
+        } else {
             def division = porcentaje.split('%')
             def punto = (division[0].toFloat())/100
             return punto
